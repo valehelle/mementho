@@ -1,0 +1,4 @@
+<h2>Show Posts</h2>
+  <%= for post <- @posts do %>
+    <h1><%= post.name %> || <%= post.group.name %></h1>
+  <% end %>

@@ -1,0 +1,4 @@
+<h2>Show Comments</h2>
+  <%= for post <- @posts do %>
+    <h1><%= post.name %> || <%= post.id %></h1>
+  <% end %>

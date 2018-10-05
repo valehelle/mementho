@@ -1,0 +1,30 @@
+
+
+<div class = "container" >
+    <div class="row" >
+        <div class = "col-sm col-md-8 offset-md-2" style = "padding-top:30px; border-left: 1px solid; color: rgba(0,0,0,.1); padding-bottom:0px;">
+        <p style = "color:black; margin-bottom:5px;"><%= link(@group.name, to: group_path(@conn, :show, @group.id, @group.slug))%></a></p>
+        <h2 style = "color:black">Create Chat</h2>
+          <%= form_for @changeset, @action, fn f -> %>
+            <div class="form-group" style = "color:black">
+              <h6>Title</h6>
+              <%= text_input f, :name, class: "form-control" %>
+              <%= error_tag f, :name %>
+              <%= inputs_for f, :comments, fn p -> %>
+                <div class="form-group" style = "margin-top:20px;">
+                  <h6>Comment</h6>
+                  <%= textarea p, :content, class: "form-control", rows: "5"%>
+                  <div style = "color:black">
+                  <%= error_tag f, :content %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <div class="form-group" style = "text-align:right">
+              <%= submit "Submit", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+          <hr style = "margin-left: -15px; margin-right: -15px;  margin-bottom:0px; margin-top: 0px;"/>
+        </div>
+    </div>
+  </div>

@@ -1,0 +1,51 @@
+<div class = "container" >
+    <div class="row" >
+        <div class = "col-sm col-md-8 offset-md-2" style = "padding-top:30px; padding-bottom: 20px; border-left: 1px solid; color: rgba(0,0,0,.1);padding-bottom:0px; border-right: 1px solid;">
+            <p style = "color:black; margin-bottom:5px;"><%= link(@post.group.name, to: group_path(@conn, :show, @post.group.id, @post.group.slug))%></a></p>
+            <h3 style = "color: black; font-weight: bold;"><%= @post.name %></h3>
+            <hr style = "margin-left: -15px; margin-right: -15px; margin-bottom:0px; margin-top: 15px;"/>
+
+        </div>
+    </div>
+  </div>
+  
+  <div class = "container" >
+    <div class="row">
+        <div class = "col-md-8 offset-md-2" style = "border-left: 1px solid; color: rgba(0,0,0,.1);">
+
+          <%= for comment <- @comments do %>
+            <%= if comment.reply do %>
+            <blockquote class="blockquote" style = "max-height: 200px; overflow: scroll; background-color: rgba(0, 0, 0, 0.04); margin-top: 20px;padding-top:10px;padding-left:10px; color:black; font-size: 14px;">
+              <%= text_to_html(comment.reply.content, [attributes: [style: "color:black;  margin-bottom: 0px; font-size: 9pt"]])  %>
+              <footer class="blockquote-footer" style="font-size: 8pt;"><%= comment.reply.user.username %></footer>
+            </blockquote>
+            <% end %>
+            <%= text_to_html(comment.content, [attributes: [style: "color:black;  margin-top: 10px; font-size:11pt; margin-bottom: 2px; line-height: 19px;"]])  %>
+            <p style = "color:grey; font-size:9pt; margin-bottom: 5px;"><%= comment.user.username %> <%=  date_time_ago(comment.inserted_at) %> - <%= link("Reply", to: comment_path(@conn, :reply_new, @post.id, @post.slug, comment.id), style: "color:grey")%> </p>
+              <hr style = "margin-left: -15px; margin-right: -15px; margin-bottom:0px; margin-top: 3px;"/>
+          <% end %>
+        </div>
+        <div class = "col-md-8 offset-md-2" style = "margin-top: 15px; border-left: 1px solid; color: transparent;" >
+          <%= pagination_links @comments, distance: 5, first: true, last: true, view_style: :bootstrap_v4%>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class = "col-md-8 offset-md-2" style = "margin-top: 15px; color: rgba(0,0,0,.1);">
+
+        <h5 style = "color:black">Comment</h5>
+        <%= form_for @changeset, @action, fn f -> %>
+            <div class="form-group" >
+              <%= textarea f, :content, class: "form-control", rows: "5" %>
+              <%= error_tag f, :content %>
+            </div>
+            <div class="form-group" style = "text-align:right">
+              <%= submit "Submit", class: "btn btn-primary" %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+
+</div>

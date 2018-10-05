@@ -1,0 +1,125 @@
+<style>
+.speech-bubble-right { position: relative; background: #00aabb; border-radius: .4em; } .speech-bubble-right:after { content: ''; position: absolute; right: 0; top: 50%; width: 0; height: 0; border: 8px solid transparent; border-left-color: #2196F3; border-right: 0; border-bottom: 0; margin-top: -4px; margin-right: -8px; }
+.speech-bubble-left { position: relative; background: #00aabb; border-radius: .4em; } .speech-bubble-left:after { content: ''; position: absolute; left: 0; top: 50%; width: 0; height: 0; border: 8px solid transparent; border-right-color: rgba(0,0,0,.1); border-left: 0; border-bottom: 0; margin-top: -4px; margin-left: -8px; }
+
+</style>
+<script>
+  window.userToken = "<%= if Guardian.Plug.current_token(@conn) do Guardian.Plug.current_token(@conn) else UUID.uuid4() end  %>";
+  window.threadID = "<%= @post.id %>"
+  window.threadSlug = "<%= @post.slug %>"
+  window.username = "<%= if @user do @user.username end %>"
+
+  function showStatus(text){
+    $("#status").text(text);
+  }
+
+  function insertChat(username, content, inserted_at, is_new){
+    if(window.username === username){
+      var li = document.createElement("li");
+      li.className = "self"
+      li.setAttribute("style", "display: flex; margin-left: -40px; justify-content: flex-end;");
+      var div = document.createElement("div");
+      div.className = "speech-bubble-right";
+      div.setAttribute("style", "margin-bottom: 5px;border-radius: 5px; padding: 5px; background-color: #2196F3; max-width:80%;");
+      var p1 = document.createElement("p");
+      p1.setAttribute("style", "font-size:10px; color:white; margin-bottom:0px;");
+      p1.innerHTML = username
+      var p2 = document.createElement("p");
+      p2.setAttribute("style", "margin-top: 0px !important; word-break: break-all;   color:white;  margin-bottom: 0px; margin-top: 10px; font-size: 11pt;");
+      p2.innerHTML = content
+      var p3 = document.createElement("p");
+      p3.setAttribute("style", "font-size:10px; color:white; margin-bottom:0px; text-align:right;");
+      p3.innerHTML = inserted_at
+      div.appendChild(p2)
+      div.appendChild(p3)
+      li.appendChild(div)
+
+      var objDiv = document.getElementById("chat-box-container");
+      var innerDiv = $("#chat-box-container").innerHeight();
+      var height = objDiv.scrollHeight - objDiv.scrollTop;
+
+      if((height - innerDiv) < 5){
+        document.getElementById("chat-box").appendChild(li);   
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }else{
+        document.getElementById("chat-box").appendChild(li);
+        if(is_new){
+          objDiv.scrollTop = objDiv.scrollHeight;
+        } 
+      }
+    }else{
+      var li = document.createElement("li");
+      li.className = "them"
+      li.setAttribute("style", "display: flex; margin-left: -40px;");
+      var div = document.createElement("div");
+      div.className = "speech-bubble-left";
+      div.setAttribute("style", "margin-bottom: 5px;border-radius: 5px; padding: 5px; background-color: rgba(0,0,0,.1); max-width:80%;");
+      var p1 = document.createElement("p");
+      p1.setAttribute("style", "font-size:10px; color:#333333; margin-bottom:0px;");
+      p1.innerHTML = username
+      var p2 = document.createElement("p");
+      p2.setAttribute("style", "margin-top: 0px !important; word-break: break-all;   color:#333333;  margin-bottom: 0px; margin-top: 10px; font-size:11pt;");
+      p2.innerHTML = content
+      var p3 = document.createElement("p");
+      p3.setAttribute("style", "font-size:10px; color:#333333; margin-bottom:0px; text-align:right;");
+      p3.innerHTML = inserted_at
+      div.appendChild(p1)
+      div.appendChild(p2)
+      div.appendChild(p3)
+      li.appendChild(div)
+      
+      var objDiv = document.getElementById("chat-box-container");
+      var innerDiv = $("#chat-box-container").innerHeight();
+      var height = objDiv.scrollHeight - objDiv.scrollTop;
+
+      if((height - innerDiv) < 5){
+        document.getElementById("chat-box").appendChild(li); 
+        objDiv.scrollTop = objDiv.scrollHeight;  
+      }else{
+        document.getElementById("chat-box").appendChild(li); 
+        if(is_new){
+          objDiv.scrollTop = objDiv.scrollHeight;
+        }  
+      }   
+    }
+  }
+</script>
+<div class = "container" >
+    <div class="row" >
+        <div class = "col-sm col-md-8 offset-md-2" style = "border-right: 1px solid; padding-top:30px; border-left: 1px solid; color: rgba(0,0,0,.1);">
+            <p style = "color:black; margin-bottom:5px;"><%= link(@post.group.name, to: group_path(@conn, :show, @post.group.id, @post.group.slug))%></a></p>
+            <h3 style = "color: black; font-weight: bold;"><%= @post.name %></h3>
+            <h6 style = "color: black; font-size: 15px; margin-bottom:0" id ="status">Connecting</h6>
+            <hr style = "margin-left: -15px; margin-right: -15px; margin-bottom: 0px;">
+
+        </div>
+       
+    </div>
+  </div>
+  <div class = "container" >
+    <div class="row">
+        <div id = "chat-box-container" class = "col-md-8 offset-md-2" style = "height: 63vh; padding-top: 5px; overflow-y: scroll; border-right: 1px solid; border-left: 1px solid; color: rgba(0,0,0,.1);">
+          <ul id = "chat-box">
+    
+          </ul>
+        </div>
+        <div class = "col-md-8 offset-md-2" style = "background-color: rgba(0,0,0,.1); border-right: 1px solid; border-left: 1px solid; color: rgba(0,0,0,.1);">
+            <div class = "row" style = "padding:10px;">
+              <input id="chat-input" class="form-control col-9 col-sm-10" type="text" style = "padding-left: 10px;border-radius: 15px;">
+              <div class = "col-3 col-sm-2" style = "text-align: center;">
+              <%= if Guardian.Plug.current_resource(@conn) do %>
+                <button id = "send-btn" class="btn btn-primary" type="submit">Send</button>
+              <% else %>
+                <%= link("Login", to: user_path(@conn, :login), class: "btn btn-outline-primary my-2 my-sm-0", id: "send-btn") %>
+              <% end %>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+</div>
+<script>
+    var objDiv = document.getElementById("chat-box-container");
+    objDiv.scrollTop = objDiv.scrollHeight;
+</script>

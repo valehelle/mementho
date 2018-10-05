@@ -1,0 +1,3 @@
+<h2>Show Groups</h2>
+  <%= @group.name %>
+  <%= @group.url %>
