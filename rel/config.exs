@@ -34,7 +34,7 @@ environment :dev do
 end
 
 environment :prod do
-  set include_erts: false
+  set include_erts: true
   set include_src: false
   set cookie: :"/rNZ,/m9y[f(O{X?MOF~fWD<Fo2wV$u}d4FnYl/S[mhw~:a=SQ]sjMrXg`<=mDi{"
 end
