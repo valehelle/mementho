@@ -11,7 +11,7 @@ config :mementho,
 
 # Configures the endpoint
 config :mementho, MementhoWeb.Endpoint,
-  url: [host: "127.0.0.1"],
+  url: [host: "localhost"],
   secret_key_base: "+8NY1XDsLph63CklWdSx0H3SV8449EagDTKfbMIlSjc39XnO6uwVKi6cB0KBy2ti",
   render_errors: [view: MementhoWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Mementho.PubSub,
