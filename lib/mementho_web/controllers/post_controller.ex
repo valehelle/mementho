@@ -108,6 +108,7 @@ defmodule MementhoWeb.PostController do
   defp create_slug(name) do
     name
     |> String.trim()
+    |> String.replace(":", "-")
     |> String.replace(" ", "-")
   end
 
