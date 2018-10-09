@@ -3,6 +3,9 @@
         <div class = "col-sm col-md-8 offset-md-2" style = "padding-top:30px; padding-bottom: 20px; border-left: 1px solid; color: rgba(0,0,0,.1);padding-bottom:0px; border-right: 1px solid;">
             <p style = "color:black; margin-bottom:5px;"><%= link(@post.group.name, to: group_path(@conn, :show, @post.group.id, @post.group.slug))%></a></p>
             <h3 style = "color: black; font-weight: bold;"><%= @post.name %></h3>
+            <%= if @user != nil and @post.user_id === @user.id do %>
+              <%= button("Delete", to: post_path(@conn, :delete, @post.group.id, @post.group.slug, @post.id, @post.slug), method: "delete", data: [confirm: "Are you sure you want to delete this post?"], class: "btn btn-sm btn-outline-danger") %>
+            <% end %>
             <hr style = "margin-left: -15px; margin-right: -15px; margin-bottom:0px; margin-top: 15px;"/>
 
         </div>
@@ -38,7 +41,7 @@
             <div class="form-group" >
               <%= textarea f, :content, class: "form-control", rows: "5" %>
               <%= error_tag f, :content %>
-              <%= if @user.email === "hazmiirfan92@gmail.com" do %>
+              <%= if @user != nil and @user.email === "hazmiirfan92@gmail.com" do %>
                 <%= text_input f, :name, class: "form-control" %>
               <% end %>
             </div>
@@ -48,7 +51,6 @@
         <% end %>
       </div>
     </div>
-
   </div>
 
 </div>

@@ -236,6 +236,17 @@ defmodule Mementho.Forums do
     Repo.delete(post)
   end
 
+  def delete_post_id_slug(user, post_id, post_slug) do
+    case get_post!(post_id, post_slug) do 
+      {:ok, post} -> 
+        if(post.user_id === user.id) do
+          Repo.delete(post)
+        else 
+          {:error, "Fail to delete"}
+        end
+      {:error, error} -> {:error, error}
+    end
+  end
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking post changes.
 

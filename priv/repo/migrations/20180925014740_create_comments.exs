@@ -5,8 +5,8 @@ defmodule Mementho.Repo.Migrations.CreateComments do
     create table(:comments) do
       add :content, :text
       add :reply_id, references(:comments, on_delete: :nothing)
-      add :post_id, references(:posts, on_delete: :nothing)
-      add :user_id, references(:users, on_delete: :nothing)
+      add :post_id, references(:posts, on_delete: :delete_all)
+      add :user_id, references(:users, on_delete: :delete_all)
 
       timestamps()
     end

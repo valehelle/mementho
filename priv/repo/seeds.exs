@@ -13,7 +13,7 @@ alias Mementho.Accounts
 alias Mementho.Forums
 alias Mementho.Forums
 
-Accounts.create_user(%{email: "hazmi@gmail.com", username: "hazmi", password: "hazmi123"})
+Accounts.create_user(%{email: "hazmiirfan92@gmail.com", username: "hazmi", password: "hazmi123"})
 Forums.create_group(%{slug: "new-test", user_id: 1, name: "new test", description: "This is the example of description of the group"})
 Forums.create_post(%{user_id: 1, name: "new post", group_id: 1, slug: "new-test", is_live: false, comments: [%{content: "sommen", user_id: 1}]})
 Forums.create_post(%{user_id: 1, name: "Liver", group_id: 1, slug: "new-test", is_live: false, comments: [%{content: "sommen", user_id: 1}]})

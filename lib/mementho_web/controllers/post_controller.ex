@@ -99,7 +99,6 @@ defmodule MementhoWeb.PostController do
     end
   end
 
-
   defp create_post_respond({:error, changeset}, conn, group_id, slug) do
     conn
     |> render("new.html", changeset: changeset, action: post_path(conn,:create, group_id, slug))
@@ -110,6 +109,12 @@ defmodule MementhoWeb.PostController do
     |> String.trim()
     |> String.replace(":", "-")
     |> String.replace(" ", "-")
+  end
+
+  def delete(conn, %{"group_id" => group_id, "group_slug" => group_slug, "post_id" => post_id, "post_slug" => post_slug}) do
+    Guardian.Plug.current_resource(conn)
+    |> Mementho.Forums.delete_post_id_slug(post_id, post_slug)
+    redirect(conn, to: group_path(conn, :show, group_id, group_slug))
   end
 
 end
