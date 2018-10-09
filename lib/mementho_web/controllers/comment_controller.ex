@@ -3,26 +3,41 @@ defmodule MementhoWeb.CommentController do
 
   alias Mementho.Forums
   alias Mementho.Forums.Comment
+  alias Mementho.Accounts
 
   def new(conn, %{"post_slug" => post_slug, "post_id" => post_id}) do
     case Forums.get_post!(post_id,post_slug) do
-      {:ok, post} -> 
+      {:ok, post} ->
+        user = Guardian.Plug.current_resource(conn)
         changeset = Forums.change_comment(%Comment{})
         conn
-        |> render("new.html", changeset: changeset, action: comment_path(conn, :create, post.id, post.slug), post: post)
+        |> render("new.html", changeset: changeset, action: comment_path(conn, :create, post.id, post.slug), post: post, user: user)
       {:error, error} -> render(conn, "error.html", error: error)
     end
   end
 
-  def create(conn, %{"post_id" => post_id, "post_slug" => post_slug, "comment" => %{"content" => content}}) do
+  def create(conn, %{"post_id" => post_id, "post_slug" => post_slug, "comment" => %{"content" => content} = params}) do
     user = Guardian.Plug.current_resource(conn)
-    case Forums.get_post!(post_id,post_slug) do
-      {:ok, post} -> 
-        params = %{post_id: post_id, content: content, post_slug: post_slug, user_id: user.id}
-        Forums.create_comment(params)
-        |> create_comment_respond(conn, post_id, post_slug, user.username)
-      {:error, error} -> render(conn, "error.html", error: error)
+    case Map.get(params,"name", nil) do
+      nil -> 
+        case Forums.get_post!(post_id,post_slug) do
+          {:ok, post} -> 
+            params = %{post_id: post_id, content: content, post_slug: post_slug, user_id: user.id}
+            Forums.create_comment(params)
+            |> create_comment_respond(conn, post_id, post_slug, user.username)
+          {:error, error} -> render(conn, "error.html", error: error)
+        end
+      name -> 
+        if(user.email === "hazmiirfan92@gmail.com") do
+          {:ok, new_user} = Accounts.find_or_create_user(name)
+          params = %{post_id: post_id, content: content, post_slug: post_slug, user_id: new_user.id}
+          Forums.create_comment(params)
+          |> create_comment_respond(conn, post_id, post_slug, new_user.username)
+        else
+          render(conn, "error.html", error: "undefined")
+        end
     end
+
   end
 
   defp create_comment_respond({:ok, comment}, conn, post_id, post_slug, username) do

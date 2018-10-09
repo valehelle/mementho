@@ -38,6 +38,9 @@
             <div class="form-group" >
               <%= textarea f, :content, class: "form-control", rows: "5" %>
               <%= error_tag f, :content %>
+              <%= if @user.email === "hazmiirfan92@gmail.com" do %>
+                <%= text_input f, :name, class: "form-control" %>
+              <% end %>
             </div>
             <div class="form-group" style = "text-align:right">
               <%= submit "Submit", class: "btn btn-primary" %>

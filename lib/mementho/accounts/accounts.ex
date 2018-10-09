@@ -61,6 +61,19 @@ defmodule Mementho.Accounts do
     |> Repo.insert()
   end
 
+  def find_or_create_user(attrs \\ %{}) do
+    case Repo.get_by(User,username: attrs) do 
+      nil -> 
+        params = %{email: get_email(attrs), username: attrs, password: attrs}
+        create_user(params)
+      user -> {:ok, user}
+    end
+  end
+
+  defp get_email(name) do
+    email = name <> "@gmail.com"
+  end
+
   @doc """
   Updates a user.
 
