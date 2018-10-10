@@ -20,6 +20,7 @@ defmodule Mementho.Accounts.User do
     |> cast(attrs, [:email, :username, :password])
     |> validate_required([:email, :username, :password])
     |> validate_format(:email, ~r/@/)
+    |> validate_format(:username, ~r/^\S*$/)
     |> unique_constraint(:email, [name: :users_email_index])
     |> unique_constraint(:username, [name: :users_username_index])
     |> put_pass_hash()

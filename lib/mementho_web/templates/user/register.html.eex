@@ -1,6 +1,6 @@
   <div class = "container" >
     <div class="row" >
-        <div class = "col-sm col-md-8 offset-md-2" style = "padding-top:30px; padding-bottom: 20px; border-left: 1px solid; color: rgba(0,0,0,.1);">
+        <div class = "col-sm col-md-8 offset-md-2" style = "padding-top:30px; padding-bottom: 0px; border-left: 1px solid; color: rgba(0,0,0,.1);">
           <h2 style = "color:black">Register</h2>
             <%= form_for @changeset, @action, fn f -> %>
               <div class="form-group" style = "color:black">
@@ -24,6 +24,7 @@
               </div>
 
             <% end %>
+             <hr style = "margin-left: -15px; margin-right: -15px;  margin-bottom:0px; margin-top: 0px;"/>
         </div>
     </div>
 </div>

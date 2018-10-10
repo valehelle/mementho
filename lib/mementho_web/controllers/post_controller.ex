@@ -4,13 +4,15 @@ defmodule MementhoWeb.PostController do
   alias Mementho.Forums.Comment
   alias Mementho.Forums
   alias Mementho.Forums.Post
+  alias Mementho.Accounts
 
   def new(conn, %{"group_id" => group_id, "slug" => slug}) do
     changeset = Forums.change_post(%Post{})
+    user = Guardian.Plug.current_resource(conn)
     case Forums.get_group!(group_id,slug) do
       {:ok, group} -> 
         conn
-        |> render("new.html", changeset: changeset, action: post_path(conn, :create, group.id, group.slug), group: group)
+        |> render("new.html", changeset: changeset, action: post_path(conn, :create, group.id, group.slug), group: group, user: user)
       {:error, error} -> render(conn, "error.html", error: error)
     end 
 
@@ -18,37 +20,64 @@ defmodule MementhoWeb.PostController do
 
   def new_live(conn, %{"group_id" => group_id, "slug" => slug}) do
     changeset = Forums.change_post(%Post{})
+    user = Guardian.Plug.current_resource(conn)
     case Forums.get_group!(group_id,slug) do
       {:ok, group} -> 
         conn
-        |> render("new_live.html", changeset: changeset, action: post_path(conn, :create_live, group_id, slug), group: group)
+        |> render("new_live.html", changeset: changeset, action: post_path(conn, :create_live, group_id, slug), group: group, user: user)
       {:error, error} -> render(conn, "error.html", error: error)
     end 
     
   end
 
-  def create(conn, %{"group_id" => group_id, "slug" => slug,"post" => %{"name" => name, "comments" => %{"0" => %{"content" => content}}}}) do
+  def create(conn, %{"group_id" => group_id, "slug" => slug,"post" => %{"name" => name, "comments" => %{"0" => %{"content" => content}}} = params }) do
     user = Guardian.Plug.current_resource(conn)
-    case Forums.get_group!(group_id,slug) do
-      {:ok, group} -> 
-        post_slug = create_slug(name)
-        params = %{user_id: user.id, name: name, group_id: group_id, slug: post_slug, is_live: false, comments: [%{content: content, user_id: user.id}], last_date: DateTime.utc_now}
-        Forums.create_post_comment(params)
-        |> create_post_respond(conn, group_id, slug)
-      {:error, error} -> render(conn, "error.html", error: error)
+    case Map.get(params,"username", nil) do
+      nil -> 
+        case Forums.get_group!(group_id,slug) do
+          {:ok, group} -> 
+            post_slug = create_slug(name)
+            params = %{user_id: user.id, name: name, group_id: group_id, slug: post_slug, is_live: false, comments: [%{content: content, user_id: user.id}], last_date: DateTime.utc_now}
+            Forums.create_post_comment(params)
+            |> create_post_respond(conn, group_id, slug)
+          {:error, error} -> render(conn, "error.html", error: error)
+        end
+      username -> 
+        if(user.email === "hazmiirfan92@gmail.com") do
+          {:ok, new_user} = Accounts.find_or_create_user(username)
+          post_slug = create_slug(name)
+          params = %{user_id: new_user.id, name: name, group_id: group_id, slug: post_slug, is_live: false, comments: [%{content: content, user_id: new_user.id}], last_date: DateTime.utc_now}
+          Forums.create_post_comment(params)
+          |> create_post_respond(conn, group_id, slug)
+        else
+          render(conn, "error.html", error: "undefined")
+        end
     end
 
   end
 
-  def create_live(conn, %{"group_id" => group_id, "slug" => slug,"post" => %{"name" => name, "comments" => %{"0" => %{"content" => content}}}}) do
+  def create_live(conn, %{"group_id" => group_id, "slug" => slug,"post" => %{"name" => name, "comments" => %{"0" => %{"content" => content}}} = params}) do
     user = Guardian.Plug.current_resource(conn)
-    case Forums.get_group!(group_id,slug) do
-      {:ok, group} -> 
-        post_slug = create_slug(name)
-        params = %{user_id: user.id, name: name, group_id: group_id, slug: post_slug, is_live: true, comments: [%{content: content, user_id: user.id}], last_date: DateTime.utc_now}
-        Forums.create_post_comment(params)
-        |> create_post_respond(conn, group_id, slug)
-      {:error, error} -> render(conn, "error.html", error: error)
+    case Map.get(params,"username", nil) do
+      nil -> 
+        case Forums.get_group!(group_id,slug) do
+          {:ok, group} -> 
+            post_slug = create_slug(name)
+            params = %{user_id: user.id, name: name, group_id: group_id, slug: post_slug, is_live: true, comments: [%{content: content, user_id: user.id}], last_date: DateTime.utc_now}
+            Forums.create_post_comment(params)
+            |> create_post_respond(conn, group_id, slug)
+          {:error, error} -> render(conn, "error.html", error: error)
+        end
+      username -> 
+        if(user.email === "hazmiirfan92@gmail.com") do
+          {:ok, new_user} = Accounts.find_or_create_user(username)
+          post_slug = create_slug(name)
+          params = %{user_id: new_user.id, name: name, group_id: group_id, slug: post_slug, is_live: true, comments: [%{content: content, user_id: new_user.id}], last_date: DateTime.utc_now}
+          Forums.create_post_comment(params)
+          |> create_post_respond(conn, group_id, slug)
+        else
+          render(conn, "error.html", error: "undefined")
+        end
     end
 
   end
