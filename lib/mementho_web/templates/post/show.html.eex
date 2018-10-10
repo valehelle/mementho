@@ -23,7 +23,9 @@
               <footer class="blockquote-footer" style="font-size: 8pt;"><%= comment.reply.user.username %></footer>
             </blockquote>
             <% end %>
-            <%= text_to_html(comment.content, [attributes: [style: "color:black;  margin-top: 10px; font-size:11pt; margin-bottom: 2px; line-height: 19px;"]])  %>
+            <div style = "color:black">
+            <%= generateHtml(comment.content) %>
+            </div>
             <p style = "color:grey; font-size:9pt; margin-bottom: 5px;"><%= comment.user.username %> <%=  date_time_ago(comment.inserted_at) %> - <%= link("Reply", to: comment_path(@conn, :reply_new, @post.id, @post.slug, comment.id), style: "color:grey")%> </p>
               <hr style = "margin-left: -15px; margin-right: -15px; margin-bottom:0px; margin-top: 3px;"/>
           <% end %>
