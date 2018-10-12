@@ -7,7 +7,7 @@
         <p style = "color:black; margin-bottom:5px;"><%= link(@post.name, to: post_path(@conn, :show, @post.id, @post.slug))%></a></p>
         <h2 style = "color: black;">Reply Comment</h2>
           <blockquote class="blockquote" style = "max-height: 200px; overflow: scroll; background-color: rgba(0, 0, 0, 0.04); margin-top: 20px;padding-top:10px;padding-left:10px; color:black; font-size: 14px;">
-            <%= text_to_html(@comment.content, [attributes: [style: "color:black;  margin-bottom: 0px; font-size: 9pt"]])  %>
+            <%= generateHtml(@comment.content)  %>
             <footer class="blockquote-footer" style="font-size: 8pt;"><%= @comment.user.username %></footer>
           </blockquote>
           <%= form_for @changeset, @action, fn f -> %>
