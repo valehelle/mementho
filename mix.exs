@@ -4,7 +4,7 @@ defmodule Mementho.Mixfile do
   def project do
     [
       app: :mementho,
-      version: "0.0.12",
+      version: "0.0.13",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -49,7 +49,9 @@ defmodule Mementho.Mixfile do
       {:timex, "~> 3.1"},
       {:elixir_uuid, "~> 1.2" },
       {:edeliver, "~> 1.4.3"},
-      {:distillery, "~> 1.4"}
+      {:distillery, "~> 1.4"},
+      {:poison, "~> 3.1"},
+      {:httpoison, "~> 1.0"}
     ]
   end
 

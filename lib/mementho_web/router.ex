@@ -33,6 +33,7 @@ defmodule MementhoWeb.Router do
   get "/g/:id/:slug", GroupController, :show
   get "/p/:post_id/:post_slug", PostController, :show
   get "/p/:post_id/:post_slug/live", PostController, :show_live
+  get "/u/twitter", PostController, :twitter_url
   end
 
   # Definitely logged in scope

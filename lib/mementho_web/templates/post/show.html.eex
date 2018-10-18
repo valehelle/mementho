@@ -40,7 +40,7 @@
         <h5 style = "color:black">Comment</h5>
         <%= form_for @changeset, @action, fn f -> %>
             <div class="form-group" >
-              <%= textarea f, :content, class: "form-control", rows: "5" %>
+              <%= textarea f, :content, class: "form-control", rows: "5", onkeydown: "detectLink()"%>
               <%= error_tag f, :content %>
               <%= if @user != nil and @user.email === "hazmiirfan92@gmail.com" do %>
                 <%= text_input f, :name, class: "form-control" %>
@@ -54,3 +54,36 @@
     </div>
   </div>
 </div>
+<script>
+var match = {}
+function detectLink(){
+  paragraph = document.getElementById('comment_content').value
+  var regex = /https:\/\/twitter.com\/[a-zA-Z0-9//]*/g;
+  var list = paragraph.match(regex);
+  if (list){
+    list.forEach(function(found){
+    if(!(match[found] === found)){
+      const Http = new XMLHttpRequest();
+      const url='/u/twitter?url=' + found;
+
+      Http.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            jsonResp = JSON.parse(Http.responseText)
+            html = jsonResp.html
+            var el = document.createElement( 'html' );
+            el.innerHTML = html
+            parag = document.getElementById('comment_content').value
+            console.log(el)
+            new_parag = parag.replace(found,"**" + el.innerText.replace(/\n/g, '') + "**" + "\n" + found)
+            document.getElementById('comment_content').value = new_parag
+        }
+      };
+      match[found] = found
+      Http.open("GET", url);
+      Http.send();
+    }
+    })
+
+  }
+}
+</script>

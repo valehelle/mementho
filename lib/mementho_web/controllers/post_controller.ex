@@ -146,4 +146,14 @@ defmodule MementhoWeb.PostController do
     redirect(conn, to: group_path(conn, :show, group_id, group_slug))
   end
 
+  def twitter_url(conn, %{"url" => url}) do
+  require Logger
+    case HTTPoison.get("https://publish.twitter.com/oembed?url=" <> url) do
+    {:ok, %{status_code: 200, body: body}} ->
+      resp = Poison.decode!(body)
+      json conn, resp
+    end
+
+  end
+
 end
