@@ -3,7 +3,7 @@
 <div class = "container" >
     <div class="row" >
         <div class = "col-sm col-md-8 offset-md-2" style = "padding-top:30px; border-left: 1px solid; color: rgba(0,0,0,.1); padding-bottom:0px;">
-        <p style = "color:black; margin-bottom:5px;"><%= link(@group.name, to: group_path(@conn, :show, @group.id, @group.slug))%></a></p>
+        <p style = "color:black; margin-bottom:5px;"><%= link(@group.name, to: Routes.group_path(@conn, :show, @group.id, @group.slug))%></a></p>
         <h2 style = "color:black">Create Thread</h2>
           <%= form_for @changeset, @action, fn f -> %>
             <div class="form-group" style = "color:black">

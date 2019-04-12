@@ -20,7 +20,7 @@
               <%= error_tag f, :password %>
             </div>
             <h6 style = "color:black; font-size: 9pt">New to Owllang? 
-              <%= link("SIGN UP", to: user_path(@conn, :register)) %>
+              <%= link("SIGN UP", to: Routes.user_path(@conn, :register)) %>
             </h6>
 
             <div class="form-group" style = "text-align:right;">

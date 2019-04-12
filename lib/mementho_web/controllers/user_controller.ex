@@ -9,13 +9,13 @@ defmodule MementhoWeb.UserController do
     changeset = Accounts.change_user(%User{})
     redirect = params |> Map.get("redirect", "/")
     conn
-      |> render("index.html", changeset: changeset, action: user_path(conn, :login), error: "none", redirect: redirect)
+      |> render("index.html", changeset: changeset, action: Routes.user_path(conn, :login), error: "none", redirect: redirect)
   end
 
   def register(conn, _params) do
     changeset = Accounts.change_user(%User{})
     conn
-      |> render("register.html", changeset: changeset, action: user_path(conn, :register_user))
+      |> render("register.html", changeset: changeset, action: Routes.user_path(conn, :register_user))
   end
 
   def register_user(conn, %{"user" => params}) do
@@ -25,7 +25,7 @@ defmodule MementhoWeb.UserController do
 
   defp register_reply({:error, changeset}, conn) do
     conn
-    |> render("register.html", changeset: changeset, action: user_path(conn, :register_user))
+    |> render("register.html", changeset: changeset, action: Routes.user_path(conn, :register_user))
   end
 
   defp register_reply({:ok, user}, conn) do
@@ -43,7 +43,7 @@ defmodule MementhoWeb.UserController do
   defp login_reply({:error, error}, conn, redirect) do
     changeset = Accounts.change_user(%User{})
     conn
-      |> render("index.html", changeset: changeset, action: user_path(conn, :login), error: error, redirect: redirect)
+      |> render("index.html", changeset: changeset, action: Routes.user_path(conn, :login), error: error, redirect: redirect)
   end
 
   defp login_reply({:ok, user}, conn, redirect) do
@@ -55,14 +55,14 @@ defmodule MementhoWeb.UserController do
   def logout(conn, _) do
     conn
     |> Guardian.Plug.sign_out()
-    |> redirect(to: user_path(conn, :login))
+    |> redirect(to: Routes.user_path(conn, :login))
   end
 
   def auth_error(conn, {type, _reason}, _opts) do
     case type do
       :unauthenticated -> 
         conn
-        |> redirect(to: user_path(conn, :login, redirect:  conn.request_path))
+        |> redirect(to: Routes.user_path(conn, :login, redirect:  conn.request_path))
     end
   end
 

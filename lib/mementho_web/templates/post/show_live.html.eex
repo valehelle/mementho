@@ -87,7 +87,7 @@
 <div class = "container" >
     <div class="row" >
         <div class = "col-sm col-md-8 offset-md-2" style = "border-right: 1px solid; padding-top:30px; border-left: 1px solid; color: rgba(0,0,0,.1);">
-            <p style = "color:black; margin-bottom:5px;"><%= link(@post.group.name, to: group_path(@conn, :show, @post.group.id, @post.group.slug))%></a></p>
+            <p style = "color:black; margin-bottom:5px;"><%= link(@post.group.name, to: Routes.group_path(@conn, :show, @post.group.id, @post.group.slug))%></a></p>
             <h3 style = "color: black; font-weight: bold;"><%= @post.name %></h3>
             <h6 style = "color: black; font-size: 15px; margin-bottom:0" id ="status">Connecting</h6>
             <hr style = "margin-left: -15px; margin-right: -15px; margin-bottom: 0px;">
@@ -110,7 +110,7 @@
               <%= if Guardian.Plug.current_resource(@conn) do %>
                 <button id = "send-btn" class="btn btn-primary" type="submit">Send</button>
               <% else %>
-                <%= link("Login", to: user_path(@conn, :login), class: "btn btn-outline-primary my-2 my-sm-0", id: "send-btn") %>
+                <%= link("Login", to: Routes.user_path(@conn, :login), class: "btn btn-outline-primary my-2 my-sm-0", id: "send-btn") %>
               <% end %>
               </div>
             </div>

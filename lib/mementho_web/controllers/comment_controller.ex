@@ -11,7 +11,7 @@ defmodule MementhoWeb.CommentController do
         user = Guardian.Plug.current_resource(conn)
         changeset = Forums.change_comment(%Comment{})
         conn
-        |> render("new.html", changeset: changeset, action: comment_path(conn, :create, post.id, post.slug), post: post, user: user)
+        |> render("new.html", changeset: changeset, action: Routes.comment_path(conn, :create, post.id, post.slug), post: post, user: user)
       {:error, error} -> render(conn, "error.html", error: error)
     end
   end
@@ -46,13 +46,13 @@ defmodule MementhoWeb.CommentController do
     post = Forums.get_post_comments!(post_id,post_slug)
     Mementho.Forums.update_post(post, %{last_date: comment.inserted_at})
     conn
-    |> redirect(to: post_path(conn, :show, post_id, post_slug, page: last_page(post)))
+    |> redirect(to: Routes.post_path(conn, :show, post_id, post_slug, page: last_page(post)))
   end
 
   defp create_comment_respond({:error, changeset}, conn, post_id, post_slug, username) do
     post = Forums.get_post_comments!(post_id,post_slug)
     conn
-    |> render("new.html", changeset: changeset, action: comment_path(conn,:create, post_id, post_slug), post: post)
+    |> render("new.html", changeset: changeset, action: Routes.comment_path(conn,:create, post_id, post_slug), post: post)
   end
 
 
@@ -72,7 +72,7 @@ defmodule MementhoWeb.CommentController do
         case Forums.get_comment!(post_id, post_slug, comment_id) do
           {:ok, comment} -> 
             conn
-            |> render("reply_new.html", changeset: changeset, action: comment_path(conn, :reply_create, post.id, post.slug, comment_id), post: post, comment: comment)
+            |> render("reply_new.html", changeset: changeset, action: Routes.comment_path(conn, :reply_create, post.id, post.slug, comment_id), post: post, comment: comment)
           {:error, error} -> render(conn, "error.html", error: error)
         end
      
@@ -98,11 +98,11 @@ defmodule MementhoWeb.CommentController do
     post = Forums.get_post_comments!(post_id,post_slug)
     Mementho.Forums.update_post(post, %{last_date: comment.inserted_at})
     conn
-    |> redirect(to: post_path(conn, :show, post_id, post_slug, page: last_page(post)))
+    |> redirect(to: Routes.post_path(conn, :show, post_id, post_slug, page: last_page(post)))
   end
 
   defp create_reply_comment_respond({:error, changeset}, conn, post_id, post_slug, comment_id) do
     conn
-    |> render("new.html", changeset: changeset, action: comment_path(conn,:reply_create, post_id, post_slug, comment_id))
+    |> render("new.html", changeset: changeset, action: Routes.comment_path(conn,:reply_create, post_id, post_slug, comment_id))
   end
 end

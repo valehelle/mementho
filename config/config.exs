@@ -22,6 +22,10 @@ config :mementho, Mementho.Accounts.Guardian,
   secret_key: "sf/dnMKYVw9YfRs5mFDyPkT7Rm/bnatbEsf8QmJWLtf24PGhTCTF7dqU/9HogDTx",
   redirect_uri: "/user/sign_in"
 
+# Use Jason for JSON parsing in Phoenix
+config :phoenix, :json_library, Jason
+
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

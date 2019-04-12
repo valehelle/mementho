@@ -12,7 +12,7 @@
             </ul> 
         </div>
         <div class="col-sm d-block d-sm-none" style = "margin-top: 20px; margin-bottom: 20px; text-align:right;">
-            <%= link("Sign Up", to: user_path(@conn, :register), class: "btn btn-outline-light") %>
+            <%= link("Sign Up", to: Routes.user_path(@conn, :register), class: "btn btn-outline-light") %>
         </div>
         <div class="col-sm d-none d-sm-block">
             <%= form_for @changeset, @action, fn f -> %>
@@ -43,7 +43,7 @@
     <div class="row" >
         <div class = "col-sm col-md-8 offset-md-2" style = "padding-top:30px;  border-left: 1px solid; color: rgba(0,0,0,.1); padding-bottom:0px; border-right: 1px solid;">
             <h5 style = "color: black">New Forums</h5>
-            <%= link("+ Forum", to: group_path(@conn, :new), class: "btn btn-sm btn-outline-primary") %>
+            <%= link("+ Forum", to: Routes.group_path(@conn, :new), class: "btn btn-sm btn-outline-primary") %>
             <hr style = "margin-left: -15px; margin-right: -15px; margin-bottom:0px; margin-top: 15px;"/>
 
         </div>
@@ -54,7 +54,7 @@
     <div class="row">
         <div class = "col-md-8 offset-md-2" style = "border-left: 1px solid; color: rgba(0,0,0,.1);">
         <%= for group <- @groups do %>
-                <%= link(group.name, to: group_path(@conn, :show, group.id, group.slug), style: "display: block; margin-top: 10px;") %>
+                <%= link(group.name, to: Routes.group_path(@conn, :show, group.id, group.slug), style: "display: block; margin-top: 10px;") %>
             <p style = "color:grey; font-size: 11px; margin-bottom: 0; margin-top:3px;">
             <%= group.description %>
             </p>

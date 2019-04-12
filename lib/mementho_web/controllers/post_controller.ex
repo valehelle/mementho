@@ -12,7 +12,7 @@ defmodule MementhoWeb.PostController do
     case Forums.get_group!(group_id,slug) do
       {:ok, group} -> 
         conn
-        |> render("new.html", changeset: changeset, action: post_path(conn, :create, group.id, group.slug), group: group, user: user)
+        |> render("new.html", changeset: changeset, action: Routes.post_path(conn, :create, group.id, group.slug), group: group, user: user)
       {:error, error} -> render(conn, "error.html", error: error)
     end 
 
@@ -24,7 +24,7 @@ defmodule MementhoWeb.PostController do
     case Forums.get_group!(group_id,slug) do
       {:ok, group} -> 
         conn
-        |> render("new_live.html", changeset: changeset, action: post_path(conn, :create_live, group_id, slug), group: group, user: user)
+        |> render("new_live.html", changeset: changeset, action: Routes.post_path(conn, :create_live, group_id, slug), group: group, user: user)
       {:error, error} -> render(conn, "error.html", error: error)
     end 
     
@@ -113,7 +113,7 @@ defmodule MementhoWeb.PostController do
     changeset = Forums.change_comment(%Comment{})
     user = Guardian.Plug.current_resource(conn)
     conn
-    |> render("show.html", changeset: changeset, action: comment_path(conn, :create, post.id, post.slug), post: post, comments: comments, user: user)
+    |> render("show.html", changeset: changeset, action: Routes.comment_path(conn, :create, post.id, post.slug), post: post, comments: comments, user: user)
   end
 
   defp render_show({:error, error}, conn, post) do
@@ -123,14 +123,14 @@ defmodule MementhoWeb.PostController do
 
   defp create_post_respond({:ok, post}, conn, group_id, slug) do
     case post.is_live do
-      true -> redirect(conn, to: post_path(conn, :show_live, post.id, post.slug))
-      false -> redirect(conn, to: post_path(conn, :show, post.id, post.slug))
+      true -> redirect(conn, to: Routes.post_path(conn, :show_live, post.id, post.slug))
+      false -> redirect(conn, to: Routes.post_path(conn, :show, post.id, post.slug))
     end
   end
 
   defp create_post_respond({:error, changeset}, conn, group_id, slug) do
     conn
-    |> render("new.html", changeset: changeset, action: post_path(conn,:create, group_id, slug))
+    |> render("new.html", changeset: changeset, action: Routes.post_path(conn,:create, group_id, slug))
   end
 
   defp create_slug(name) do
@@ -143,7 +143,7 @@ defmodule MementhoWeb.PostController do
   def delete(conn, %{"group_id" => group_id, "group_slug" => group_slug, "post_id" => post_id, "post_slug" => post_slug}) do
     Guardian.Plug.current_resource(conn)
     |> Mementho.Forums.delete_post_id_slug(post_id, post_slug)
-    redirect(conn, to: group_path(conn, :show, group_id, group_slug))
+    redirect(conn, to: Routes.group_path(conn, :show, group_id, group_slug))
   end
 
   def twitter_url(conn, %{"url" => url}) do
@@ -154,6 +154,10 @@ defmodule MementhoWeb.PostController do
       json conn, resp
     end
 
+  end
+  def fabric(conn, params) do
+  require Logger
+  Logger.info params
   end
 
 end

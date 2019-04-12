@@ -21,8 +21,8 @@ defmodule MementhoWeb do
     quote do
       use Phoenix.Controller, namespace: MementhoWeb
       import Plug.Conn
-      import MementhoWeb.Router.Helpers
       import MementhoWeb.Gettext
+      alias MementhoWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -37,9 +37,9 @@ defmodule MementhoWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import MementhoWeb.Router.Helpers
       import MementhoWeb.ErrorHelpers
       import MementhoWeb.Gettext
+      alias MementhoWeb.Router.Helpers, as: Routes
     end
   end
 

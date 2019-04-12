@@ -7,7 +7,7 @@ defmodule Mementho.Forums.Post do
     field :name, :string
     field :slug, :string
     field :is_live, :boolean
-    field :last_date, :utc_datetime, default: Ecto.DateTime.utc
+    field :last_date, :utc_datetime, default: DateTime.utc_now()
     belongs_to :user, Mementho.Accounts.User
     belongs_to :group, Mementho.Forums.Group
     has_many :comments, Mementho.Forums.Comment

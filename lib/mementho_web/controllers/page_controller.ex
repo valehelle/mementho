@@ -8,6 +8,6 @@ defmodule MementhoWeb.PageController do
     posts = Forums.list_latest_posts(1,2)
     groups = Forums.list_groups()
     conn
-    |> render("index.html", changeset: changeset, action: user_path(conn, :register_user), posts: posts, groups: groups)
+    |> render("index.html", changeset: changeset, action: Routes.user_path(conn, :register_user), posts: posts, groups: groups)
   end
 end

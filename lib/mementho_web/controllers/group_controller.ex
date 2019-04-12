@@ -7,7 +7,7 @@ defmodule MementhoWeb.GroupController do
   def new(conn, _params) do
     changeset = Forums.change_group(%Group{})
     conn
-    |> render("new.html", changeset: changeset, action: group_path(conn, :create))
+    |> render("new.html", changeset: changeset, action: Routes.group_path(conn, :create))
   end
 
   def create(conn, %{"group" => %{"name" => name, "description" => description}}) do
@@ -41,12 +41,12 @@ defmodule MementhoWeb.GroupController do
 
   defp create_group_reply({:ok, group}, conn) do
     conn
-    |> redirect(to: group_path(conn, :show, group.id, group.slug))
+    |> redirect(to: Routes.group_path(conn, :show, group.id, group.slug))
   end
 
   defp create_group_reply({:error, changeset}, conn) do
     conn
-    |> render("new.html", changeset: changeset, action: group_path(conn, :create))
+    |> render("new.html", changeset: changeset, action: Routes.group_path(conn, :create))
   end
 
   defp create_slug(name) do

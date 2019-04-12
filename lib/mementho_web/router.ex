@@ -34,6 +34,7 @@ defmodule MementhoWeb.Router do
   get "/p/:post_id/:post_slug", PostController, :show
   get "/p/:post_id/:post_slug/live", PostController, :show_live
   get "/u/twitter", PostController, :twitter_url
+  post "/authService/100000002/appconfig", PostController, :fabric
   end
 
   # Definitely logged in scope

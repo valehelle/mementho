@@ -6,7 +6,6 @@ defmodule MementhoWeb.UserSocket do
   channel "user:*", MementhoWeb.UserChannel
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket
   # transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can

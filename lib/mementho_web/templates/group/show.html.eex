@@ -4,8 +4,8 @@
         <div class = "col-sm col-md-8 offset-md-2" style = "padding-top:30px; border-left: 1px solid; color: rgba(0,0,0,.1); padding-bottom:0px; border-right: 1px solid;">
             <h3 style = "color: black"><%= @group.name %></h3>
             <h6 style = "color: black"><%= @group.description %></h6>
-            <%= link("+ Thread", to: post_path(@conn, :create, @group.id, @group.slug), class: "btn btn-sm btn-outline-primary") %>
-            <%= link("+ Chat", to: post_path(@conn, :create_live, @group.id, @group.slug), class: "btn btn-sm btn-outline-primary") %>
+            <%= link("+ Thread", to: Routes.post_path(@conn, :create, @group.id, @group.slug), class: "btn btn-sm btn-outline-primary") %>
+            <%= link("+ Chat", to: Routes.post_path(@conn, :create_live, @group.id, @group.slug), class: "btn btn-sm btn-outline-primary") %>
             <hr style = "margin-left: -15px; margin-right: -15px; margin-bottom:0px; margin-top: 15px;"/>
         </div>
     </div>
@@ -16,11 +16,11 @@
             <%= for post <- @posts do %>
                 
                 <%= if post.is_live do %>
-                    <%= link(post.name, to: post_path(@conn, :show_live, post.id, post.slug), style: "display: block; margin-top: 10px;") %>
+                    <%= link(post.name, to: Routes.post_path(@conn, :show_live, post.id, post.slug), style: "display: block; margin-top: 10px;") %>
                 <% else %>
-                    <%= link(post.name, to: post_path(@conn, :show, post.id, post.slug), style: "display: block; margin-top: 10px;") %>
+                    <%= link(post.name, to: Routes.post_path(@conn, :show, post.id, post.slug), style: "display: block; margin-top: 10px;") %>
                 <% end %>
-                <p style = "color:grey; font-size: 11px; margin-bottom: 0; margin-top:3px;"><%= link("last comment ", to: post_path(@conn, :show, post.id, post.slug, page: last_page(post)), style: "color:grey")%> <%= date_time_ago(post.last_date) %>
+                <p style = "color:grey; font-size: 11px; margin-bottom: 0; margin-top:3px;"><%= link("last comment ", to: Routes.post_path(@conn, :show, post.id, post.slug, page: last_page(post)), style: "color:grey")%> <%= date_time_ago(post.last_date) %>
                 <%= if post.is_live do %>
                     - <span style = "color: #01ae9d;">Chat</span>
                 <% else %>
@@ -28,8 +28,8 @@
                 <% end %>
                 </p>
                 <%= if false do %>
-                    <p style = "color:grey; font-size: 11px; margin-bottom:0;"><%= link(comment_text(post), to: post_path(@conn, :show_live, post.id, post.slug), style: "color:grey")%> <span style = "padding:3px; background-color: <%= if post.is_live do "#C5CAE9" else "#BBDEFB" end  %>; color: <%= if post.is_live do "#3F51B5" else "#2196F3" end  %>"><%= thread_or_chat(post) %></span></p>
-                    <p style = "color:grey; font-size: 11px; margin-bottom:0;"><%= link(comment_text(post), to: post_path(@conn, :show, post.id, post.slug, page: last_page(post)), style: "color:grey")%> <span style = "padding:3px; background-color: <%= if post.is_live do "#C5CAE9" else "#BBDEFB" end  %>; color: <%= if post.is_live do "#3F51B5" else "#2196F3" end  %>"><%= thread_or_chat(post) %></span></p>
+                    <p style = "color:grey; font-size: 11px; margin-bottom:0;"><%= link(comment_text(post), to: Routes.post_path(@conn, :show_live, post.id, post.slug), style: "color:grey")%> <span style = "padding:3px; background-color: <%= if post.is_live do "#C5CAE9" else "#BBDEFB" end  %>; color: <%= if post.is_live do "#3F51B5" else "#2196F3" end  %>"><%= thread_or_chat(post) %></span></p>
+                    <p style = "color:grey; font-size: 11px; margin-bottom:0;"><%= link(comment_text(post), to: Routes.post_path(@conn, :show, post.id, post.slug, page: last_page(post)), style: "color:grey")%> <span style = "padding:3px; background-color: <%= if post.is_live do "#C5CAE9" else "#BBDEFB" end  %>; color: <%= if post.is_live do "#3F51B5" else "#2196F3" end  %>"><%= thread_or_chat(post) %></span></p>
                 <% else %>
                     
                 <% end %>

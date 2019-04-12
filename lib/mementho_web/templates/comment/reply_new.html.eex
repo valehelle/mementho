@@ -4,7 +4,7 @@
 <div class = "container" >
     <div class="row" >
         <div class = "col-sm col-md-8 offset-md-2" style = "padding-top:30px; border-left: 1px solid; color: rgba(0,0,0,.1); padding-bottom:0px; ">
-        <p style = "color:black; margin-bottom:5px;"><%= link(@post.name, to: post_path(@conn, :show, @post.id, @post.slug))%></a></p>
+        <p style = "color:black; margin-bottom:5px;"><%= link(@post.name, to: Routes.post_path(@conn, :show, @post.id, @post.slug))%></a></p>
         <h2 style = "color: black;">Reply Comment</h2>
           <blockquote class="blockquote" style = "max-height: 200px; overflow: scroll; background-color: rgba(0, 0, 0, 0.04); margin-top: 20px;padding-top:10px;padding-left:10px; color:black; font-size: 14px;">
             <%= generateHtml(@comment.content)  %>
