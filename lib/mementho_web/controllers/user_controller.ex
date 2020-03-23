@@ -31,7 +31,7 @@ defmodule MementhoWeb.UserController do
   defp register_reply({:ok, user}, conn) do
     conn
     |> Guardian.Plug.sign_in(user)
-    |> redirect(to: "/")
+    |> redirect(to: "/location")
   end
 
 
@@ -49,7 +49,7 @@ defmodule MementhoWeb.UserController do
   defp login_reply({:ok, user}, conn, redirect) do
     conn
     |> Guardian.Plug.sign_in(user)
-    |> redirect(to: redirect)
+    |> redirect(to: "/location")
   end
 
   def logout(conn, _) do

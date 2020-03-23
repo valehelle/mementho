@@ -6,6 +6,46 @@ defmodule MementhoWeb.PostController do
   alias Mementho.Forums.Post
   alias Mementho.Accounts
 
+  def location(conn, _params) do
+  
+    render(conn, "location.html")
+  end
+  def index(conn, %{"latitude" => latitude, "longitude" => longitude}) do
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get "https://revgeocode.search.hereapi.com/v1/revgeocode?apiKey=YeeU5KyEOwPTnWbLaPdFfNE4_gehPOab3Bl5F8Quni4&at=#{latitude},#{longitude}&lang=en-US&"
+    response = Poison.decode! body
+    %{"city" => city, "county" => county, "state" => state, "countryName" => country_name} = Map.get(response, "items") |> List.first |> Map.get("address")
+  
+
+    areas = [
+      %{
+        "title" => city,
+        "path" => create_slug("#{city} #{county} #{state} #{country_name}")
+      },
+      %{
+        "title" => county,
+        "path" => create_slug("#{county} #{state} #{country_name}")
+      },
+      %{
+        "title" => state,
+        "path" => create_slug("#{state} #{country_name}")
+      },
+      %{
+        "title" => country_name,
+        "path" => create_slug("#{country_name}")
+      },
+    ]
+
+    render(conn, "index.html", areas: areas)
+  end
+
+  defp create_slug(name) do
+    name
+    |> String.trim()
+    |> String.downcase()
+    |> String.replace(" ", "-")
+  end
+
+
   def new(conn, %{"group_id" => group_id, "slug" => slug}) do
     changeset = Forums.change_post(%Post{})
     user = Guardian.Plug.current_resource(conn)
@@ -97,6 +137,14 @@ defmodule MementhoWeb.PostController do
     Forums.get_post_comments!(post_id,post_slug)
     |> render_show_live(conn,user)
   end
+  
+  def show_live_new(conn,%{"name" => name, "post_slug" => post_slug}) do
+    user = Guardian.Plug.current_resource(conn)
+    Forums.get_post_comments_without_id!(name, post_slug)
+    |> render_show_live(conn,user)
+  end
+
+  
 
   defp render_show_live(post, conn, user) do
     conn

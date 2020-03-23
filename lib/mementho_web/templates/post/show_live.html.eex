@@ -55,7 +55,7 @@
       div.className = "speech-bubble-left";
       div.setAttribute("style", "margin-bottom: 5px;border-radius: 5px; padding: 5px; background-color: rgba(0,0,0,.1); max-width:80%;");
       var p1 = document.createElement("p");
-      p1.setAttribute("style", "font-size:10px; color:#333333; margin-bottom:0px;");
+      p1.setAttribute("style", "font-size:13px; color:#333333; margin-bottom:0px;");
       p1.innerHTML = username
       var p2 = document.createElement("p");
       p2.setAttribute("style", "margin-top: 0px !important; word-break: break-all;   color:#333333;  margin-bottom: 0px; margin-top: 10px; font-size:11pt;");
@@ -86,24 +86,20 @@
 </script>
 <div class = "container" >
     <div class="row" >
-        <div class = "col-sm col-md-8 offset-md-2" style = "border-right: 1px solid; padding-top:30px; border-left: 1px solid; color: rgba(0,0,0,.1);">
-            <p style = "color:black; margin-bottom:5px;"><%= link(@post.group.name, to: Routes.group_path(@conn, :show, @post.group.id, @post.group.slug))%></a></p>
-            <h3 style = "color: black; font-weight: bold;"><%= @post.name %></h3>
+        <div class = "col-sm col-md-8 offset-md-2" style = "border-bottom: 1px solid; height: 12vh; border-right: 1px solid; padding-top:20px; border-left: 1px solid; color: rgba(0,0,0,.1);">
+            <h3 style = "color: black; font-weight: bold; margin-bottom: 0;"><%= @post.name %></h3>
             <h6 style = "color: black; font-size: 15px; margin-bottom:0" id ="status">Connecting</h6>
-            <hr style = "margin-left: -15px; margin-right: -15px; margin-bottom: 0px;">
-
         </div>
-       
     </div>
   </div>
   <div class = "container" >
     <div class="row">
-        <div id = "chat-box-container" class = "col-md-8 offset-md-2" style = "height: 63vh; padding-top: 5px; overflow-y: scroll; border-right: 1px solid; border-left: 1px solid; color: rgba(0,0,0,.1);">
+        <div id = "chat-box-container" class = "col-md-8 offset-md-2" style = "height: 70vh; padding-top: 5px; overflow-y: scroll; border-right: 1px solid; border-left: 1px solid; color: rgba(0,0,0,.1);">
           <ul id = "chat-box">
     
           </ul>
         </div>
-        <div class = "col-md-8 offset-md-2" style = "background-color: rgba(0,0,0,.1); border-right: 1px solid; border-left: 1px solid; color: rgba(0,0,0,.1);">
+        <div class = "col-md-8 offset-md-2" style = "height: 8vh; background-color: rgba(0,0,0,.1); border-right: 1px solid; border-left: 1px solid; color: rgba(0,0,0,.1);">
             <div class = "row" style = "padding:10px;">
               <input id="chat-input" class="form-control col-9 col-sm-10" type="text" style = "padding-left: 10px;border-radius: 15px;">
               <div class = "col-3 col-sm-2" style = "text-align: center;">

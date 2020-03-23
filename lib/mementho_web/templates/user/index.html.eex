@@ -19,7 +19,7 @@
               <%= password_input f, :password, class: "form-control" %>
               <%= error_tag f, :password %>
             </div>
-            <h6 style = "color:black; font-size: 9pt">New to Owllang? 
+            <h6 style = "color:black; font-size: 9pt">New to Kawasan? 
               <%= link("SIGN UP", to: Routes.user_path(@conn, :register)) %>
             </h6>
 

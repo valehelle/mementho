@@ -164,13 +164,27 @@ defmodule Mementho.Forums do
   """
   def get_post_comments!(id, slug) do
     Repo.get_by(Post, id: id, slug: slug)
-    |> Repo.preload([:group, comments: [:user, reply: :user]])  
+    |> Repo.preload([comments: [:user, reply: :user]])  
   end 
+
+  def get_post_comments_without_id!(name, slug) do
+    post = %{name: name, slug: slug, is_live: true, last_date: DateTime.utc_now}
+    query = from p in Post,
+            where: p.slug == ^slug
+      if !Repo.one(query)  do
+        IO.inspect %Post{}
+          |> Post.changeset(post)
+          |> Repo.insert()
+      end
+    Repo.get_by(Post, slug: slug)
+    |> Repo.preload([comments: [:user, reply: :user]])  
+
+  end 
+
 
   def get_post!(id, slug) do
     try do
       Repo.get_by!(Post, id: id, slug: slug)
-      |> Repo.preload([:group]) 
       |> success()
     rescue
       Ecto.NoResultsError -> {:error, "No post found"}

@@ -1,0 +1,36 @@
+
+<script>
+  function geoFindMe(){
+    function success(position) {
+        const latitude  = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        
+        // Simulate a mouse click:
+        window.location.href = "/dashboard?latitude=" + latitude + "&longitude="+longitude;
+      }
+
+      function error() {
+        document.getElementById('status').innerHTML = 'Unable to retrieve your location';
+        document.getElementById('retry').style.visibility = 'visible';
+      }
+        navigator.geolocation.getCurrentPosition(success, error);
+
+  }
+
+  function reload(){
+    window.location.href = "/location";
+    return false;
+  }
+
+  geoFindMe()
+
+</script>
+<div style="height: 90vh;"class = "d-flex align-items-center justify-content-center bg-info container">
+  <div class = "container" >
+    <div class="column">
+      <h2 style = "color: white" id="status">Getting your location</h2>
+      <br>
+      <h5 style = "color: white" id="retry" style="visibility: hidden;" >Please allow us to access your location in the browser</h5>
+    </div>
+  </div>
+</div>

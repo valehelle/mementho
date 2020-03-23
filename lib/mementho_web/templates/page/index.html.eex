@@ -1,30 +1,30 @@
-<div style="background-color:#01AE9D; padding-top:30px;">
+<div style="background-color:#2196f3; padding-top:30px;">
   <div class = "container">
     <div class="row" style = "color:white">
         <div class="col-sm" style = "margin-top:10px;">
-            <h2>Welcome to Owllang</h2>
-            <h6>Owllang is an online forum that allows you to discuss things that you are interested in.</h6>
-            <h6>You can use Owllang to:</h6>
+            <h2>Welcome to Kawasan</h2>
+            <h6>Kawasan is an online place for you to chat with people on your region.</h6>
+            <h6>You can use Kawasan to chat with people based on :</h6>
              <ul>
-                <li>Create your own forum</li>
-                <li>Create a thread for discussion</li>
-                <li>Create a chat for real-time discussion</li>
+                <li>City</li>
+                <li>County</li>
+                <li>State</li>
+                <li>Country</li>
             </ul> 
         </div>
-        <div class="col-sm d-block d-sm-none" style = "margin-top: 20px; margin-bottom: 20px; text-align:right;">
-            <%= link("Sign Up", to: Routes.user_path(@conn, :register), class: "btn btn-outline-light") %>
-        </div>
-        <div class="col-sm d-none d-sm-block">
+        <div class="col-sm  d-sm-block">
             <%= form_for @changeset, @action, fn f -> %>
+                <div class="form-group">
+                <label class= "control-label">
+                    First Name
+                </label>
+                <%= text_input f, :username, class: "form-control" %>
+                <%= error_tag f, :username %>
+                </div>
                 <div class="form-group">
                 <%= label f, :email, class: "control-label" %>
                 <%= text_input f, :email, class: "form-control" %>
                 <%= error_tag f, :email %>
-                </div>
-                <div class="form-group">
-                <%= label f, :username, class: "control-label" %>
-                <%= text_input f, :username, class: "form-control" %>
-                <%= error_tag f, :username %>
                 </div>
                 <div class="form-group">
                 <%= label f, :password, class: "control-label" %>
@@ -32,40 +32,11 @@
                 <%= error_tag f, :password %>
                 </div>
                 <div class="form-group" style = "text-align:right;">
-                    <%= submit "Submit", class: "btn btn-primary my-2 my-sm-0" %>
+                    <%= submit "Submit", class: "btn btn-outline-light my-2 my-sm-0" %>
                 </div>
             <% end %>
         </div>
     </div>
   </div>
 </div>
-<div class = "container" >
-    <div class="row" >
-        <div class = "col-sm col-md-8 offset-md-2" style = "padding-top:30px;  border-left: 1px solid; color: rgba(0,0,0,.1); padding-bottom:0px; border-right: 1px solid;">
-            <h5 style = "color: black">New Forums</h5>
-            <%= link("+ Forum", to: Routes.group_path(@conn, :new), class: "btn btn-sm btn-outline-primary") %>
-            <hr style = "margin-left: -15px; margin-right: -15px; margin-bottom:0px; margin-top: 15px;"/>
 
-        </div>
-    </div>
-</div>
-
-<div class = "container" >
-    <div class="row">
-        <div class = "col-md-8 offset-md-2" style = "border-left: 1px solid; color: rgba(0,0,0,.1);">
-        <%= for group <- @groups do %>
-                <%= link(group.name, to: Routes.group_path(@conn, :show, group.id, group.slug), style: "display: block; margin-top: 10px;") %>
-            <p style = "color:grey; font-size: 11px; margin-bottom: 0; margin-top:3px;">
-            <%= group.description %>
-            </p>
-            <p style = "color:grey; font-size: 11px; margin-bottom: 0; margin-top:3px;">
-            created <%= date_time_ago(group.inserted_at) %>
-            </p>
-            <hr style = "margin-left: -15px; margin-right: -15px; margin-bottom:0px; margin-top: 3px;"/>
-            <% end %>
-            
-        </div>
-    </div>
-    <br>
-    <br>
-</div>

@@ -30,11 +30,7 @@ defmodule MementhoWeb.Router do
   get "/users/sign_in", UserController, :index
   post "/users/sign_in", UserController, :login
   post "/users/sign_out", UserController, :logout
-  get "/g/:id/:slug", GroupController, :show
-  get "/p/:post_id/:post_slug", PostController, :show
-  get "/p/:post_id/:post_slug/live", PostController, :show_live
   get "/u/twitter", PostController, :twitter_url
-  post "/authService/100000002/appconfig", PostController, :fabric
   end
 
   # Definitely logged in scope
@@ -51,6 +47,11 @@ defmodule MementhoWeb.Router do
     post "/p/:post_id/:post_slug/c/new", CommentController, :create
     get "/p/:post_id/:post_slug/c/:comment_id/r/new", CommentController, :reply_new
     post "/p/:post_id/:post_slug/c/:comment_id/r/new", CommentController, :reply_create
+    get "/location", PostController, :location
+    get "/dashboard", PostController, :index
+    get "/chat/:name/:post_slug", PostController, :show_live_new
+    get "/p/:post_id/:post_slug/live", PostController, :show_live
+
   end
 
   # Other scopes may use custom stacks.

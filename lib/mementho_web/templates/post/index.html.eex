@@ -1,4 +1,14 @@
-<h2>Show Posts</h2>
-  <%= for post <- @posts do %>
-    <h1><%= post.name %> || <%= post.group.name %></h1>
-  <% end %>
+
+<div class = "container" >
+    <div class="row">
+        <div class = "col-md-8 offset-md-2" style = "padding-top: 10px; margin-bottom: 0px;">
+        <h1 style="margin-top: 20px;">Location</h1>
+        <%= for area <- @areas do %>
+          <div style = "margin-top: 20px; padding-top: 10px; padding-left: 20px;">
+            <%= link( Map.get(area, "title"), to: Routes.post_path(@conn, :show_live_new, Map.get(area, "title"), Map.get(area, "path")), style: "font-size:20px; margin-top: 10px;") %>
+          </div>
+        <% end %>
+        </div>
+      </div>
+</div>
+
