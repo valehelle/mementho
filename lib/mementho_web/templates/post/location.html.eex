@@ -25,7 +25,7 @@
   geoFindMe()
 
 </script>
-<div style="height: 90vh;"class = "d-flex align-items-center justify-content-center bg-info container">
+<div style="height: 90vh; background-color: #2196f3; margin: 0;"class = "d-flex align-items-center justify-content-center ">
   <div class = "container" >
     <div class="column">
       <h2 style = "color: white" id="status">Getting your location</h2>

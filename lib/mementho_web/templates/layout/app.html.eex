@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Kawasan</title>
+    <title>Lepak</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>">
     <link href="https://fonts.googleapis.com/css?family=Khula" rel="stylesheet">
@@ -16,7 +16,7 @@
     <nav class="navbar navbar-light" style = "background-color: #2196f3; height: 10vh;">
       <div class="container">
         <a class="navbar-brand" href="/" style = "color: white;">
-          Kawasan
+          Lepak
         </a>
         <%= if Guardian.Plug.current_resource(@conn) do %>
           <%= button("Logout", to: Routes.user_path(@conn, :logout), class: "btn btn-outline-light my-2 my-sm-0") %> 

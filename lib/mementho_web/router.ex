@@ -36,17 +36,6 @@ defmodule MementhoWeb.Router do
   # Definitely logged in scope
   scope "/", MementhoWeb do
     pipe_through [:browser, :auth, :ensure_auth]
-    get "/g/new", GroupController, :new
-    post "/g/new", GroupController, :create
-    get "/p/:post_id/:post_slug/c/new", CommentController, :new
-    get "/g/:group_id/:slug/p/new", PostController, :new
-    post "/g/:group_id/:slug/p/new", PostController, :create
-    get "/g/:group_id/:slug/p/live/new", PostController, :new_live
-    post "/g/:group_id/:slug/p/live/new", PostController, :create_live
-    delete "/g/:group_id/:group_slug/p/:post_id/:post_slug", PostController, :delete
-    post "/p/:post_id/:post_slug/c/new", CommentController, :create
-    get "/p/:post_id/:post_slug/c/:comment_id/r/new", CommentController, :reply_new
-    post "/p/:post_id/:post_slug/c/:comment_id/r/new", CommentController, :reply_create
     get "/location", PostController, :location
     get "/dashboard", PostController, :index
     get "/chat/:name/:post_slug", PostController, :show_live_new

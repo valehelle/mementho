@@ -8,6 +8,9 @@
             <%= link( Map.get(area, "title"), to: Routes.post_path(@conn, :show_live_new, Map.get(area, "title"), Map.get(area, "path")), style: "font-size:20px; margin-top: 10px;") %>
           </div>
         <% end %>
+          <div style = "margin-top: 20px; padding-top: 10px; padding-left: 20px;">
+            <a href="/chat/Earth/earth" style="font-size:20px; margin-top: 10px;">Earth</a>
+          </div>
         </div>
       </div>
 </div>
