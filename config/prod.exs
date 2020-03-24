@@ -21,6 +21,7 @@ config :mementho, MementhoWeb.Endpoint,
 
 # Do not print debug messages in production
 config :logger, level: :info
+
 config :mementho, Mementho.Repo,
   ssl: true,
   url: System.get_env("DATABASE_URL"),
@@ -28,6 +29,8 @@ config :mementho, Mementho.Repo,
 
 config :mementho, MementhoWeb.Endpoint,
   secret_key_base: System.get_env("SECRET_KEY_BASE")
+  
+  
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
